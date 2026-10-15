@@ -1,0 +1,83 @@
+# cobertura T04-SL4c-O-C v0.6 · 2026-09-26T23:46:49+02:00 · contrato 614dc72aab9105268699cd8fa5d0f2d4210f13f8feef63c69b214d8ed6c97c6c
+# definiciones de los contadores de evidencia (sec. evidencia):
+#  construida   = EvidenceTx presente en la historia de aplicación seleccionada
+#  aplicada     = se aplica sin descarte al aplicarse su bloque
+#  sin_saldo    = aplicada con V=0 en su clave (EV-22, pérdida 0, incidente registrado)
+#  duplicada    = descartada por ErrEvidenciaDuplicada (EV-12)
+#  tardia       = descartada por ErrEvidenciaTardia (EV-14)
+#  con_entradas = obsoleto: la estructura EV-04 es forma desde SL-4c-O-C
+#  deshecha     = aplicada en la historia seleccionada en algún momento y luego
+#                 retirada por una reorganización (EV-27/EV-28); no cuenta el undo
+#                 exacto de un bloque que sigue en la cadena seleccionada
+# forma v4 (SL-4c-O/SL-4c-O-B/SL-4c-O-C): estructura, cbid ajeno u orden no
+# canónico invalidan el bloque entero
+#  bloque_estructura = bloque inválido con motivo ErrForma(EvidenciaConEntradasOSalidas)
+#  bloque_estructura_entradas/salidas/ambos = PRIMER sub-defecto de EV-04
+#  bloque_estructura_cbid_orden = estructura + cbid ajeno + orden (gana estructura)
+#  ev_estructura = EvidenceTx con algún defecto estructural de EV-04
+#  con_tx_estructura = el bloque inválido por estructura lleva además una tx monetaria
+#  bloque_cbid  = bloque inválido con motivo ErrForma(EvidenciaCbidAjeno)
+#  bloque_orden = bloque inválido con motivo ErrForma(OrdenCanonicoInvalido)
+#  bloque_orden_igual/desc = el PRIMER defecto de orden es H1=H2 / H1>H2
+#  ev_cbid/ev_orden = EvidenceTx con cada defecto dentro de esos bloques
+#  ev_orden_igual/desc = EvidenceTx con H1=H2 / H1>H2 en esos bloques
+#  ambos_cbid   = bloque con los dos defectos (gana el primero en el orden de tx)
+#  con_tx_cbid/con_tx_orden = el bloque inválido lleva además una tx monetaria
+# generador: pesos=(0.12, 0.18, 0.22, 0.48) npost=15..16 p_tx=0.5 p_invalido=0.12 p_error_nonce=0.10 p_ev=0.12
+# minimos: depositos_aplicados>=150 retiros_aplicados>=100 liberaciones_aplicadas>=100 ErrNonce>=30 y <=25% de garantia construida ErrDobleGasto>=200 reorgs_garantia>=20
+# minimos SL-4c-O: bloque_cbid>=30 bloque_orden>=30 con_tx_cbid>=10 con_tx_orden>=10 ambos_cbid>=5
+# minimos SL-4c-O-B: bloque_orden_desc>=10 bloque_orden_igual>=10
+# minimos SL-4c-O-C: bloque_estructura>=30 con_tx_estructura>=10 bloque_estructura_ambos>=5 bloque_estructura_cbid_orden>=5
+SECCION vectores-v0.6 (casos aleatorios)
+casos = 900
+TIPO Transferencia construidas=1112 aplicadas=364 descartadas=204 evaluadas=568 en_ramas_no_seleccionadas=544 ErrNonce=0 ErrDobleGasto=204 ErrSaldo=0 ErrRetiroPendiente=0 ErrAutorizacion=0 ErrInmaduro=0 ErrOperacionFase=0 ErrEmision=0 otros=0
+TIPO Deposito construidas=1626 aplicadas=347 descartadas=396 evaluadas=743 en_ramas_no_seleccionadas=883 ErrNonce=295 ErrDobleGasto=101 ErrSaldo=0 ErrRetiroPendiente=0 ErrAutorizacion=0 ErrInmaduro=0 ErrOperacionFase=0 ErrEmision=0 otros=0
+TIPO Retiro construidas=2579 aplicadas=808 descartadas=510 evaluadas=1318 en_ramas_no_seleccionadas=1261 ErrNonce=474 ErrDobleGasto=0 ErrSaldo=11 ErrRetiroPendiente=25 ErrAutorizacion=0 ErrInmaduro=0 ErrOperacionFase=0 ErrEmision=0 otros=0
+TIPO Liberacion construidas=458 aplicadas=115 descartadas=104 evaluadas=219 en_ramas_no_seleccionadas=239 ErrNonce=84 ErrDobleGasto=0 ErrSaldo=20 ErrRetiroPendiente=0 ErrAutorizacion=0 ErrInmaduro=0 ErrOperacionFase=0 ErrEmision=0 otros=0
+garantia_construidas = 4663
+garantia_evaluadas = 2280
+garantia_errnonce = 853
+garantia_errnonce_pct_construidas = 18.29
+garantia_errnonce_pct_evaluadas = 37.41
+err_doble_gasto_total = 305
+reorganizaciones_que_deshacen_garantia = 312
+SECCION evidencia SL-3b/SL-4c-O (dirigidos + aleatorios C-EVP)
+EV aplicada = 353
+EV construida = 560
+EV deshecha = 59
+EV duplicada = 20
+EV sin_saldo = 42
+EV tardia = 145
+SECCION forma v4 SL-4c-O/SL-4c-O-B/SL-4c-O-C
+FORMA bloque_estructura = 108
+FORMA bloque_estructura_entradas = 62
+FORMA bloque_estructura_salidas = 37
+FORMA bloque_estructura_ambos = 9
+FORMA bloque_estructura_cbid_orden = 9
+FORMA ev_estructura = 108
+FORMA con_tx_estructura = 108
+FORMA bloque_cbid = 283
+FORMA bloque_orden = 243
+FORMA bloque_orden_igual = 115
+FORMA bloque_orden_desc = 128
+FORMA ev_cbid = 283
+FORMA ev_orden = 243
+FORMA ev_orden_igual = 115
+FORMA ev_orden_desc = 128
+FORMA ambos_cbid = 161
+FORMA con_tx_cbid = 166
+FORMA con_tx_orden = 152
+FORMA minimos_SL4cO = OK
+SECCION run.jl (seed 0x5a5a, replicas 200)
+casos = 3000
+TIPO Transferencia construidas=3622 aplicadas=1192 descartadas=712 evaluadas=1904 en_ramas_no_seleccionadas=1718 ErrNonce=0 ErrDobleGasto=712 ErrSaldo=0 ErrRetiroPendiente=0 ErrAutorizacion=0 ErrInmaduro=0 ErrOperacionFase=0 ErrEmision=0 otros=0
+TIPO Deposito construidas=5542 aplicadas=1288 descartadas=1590 evaluadas=2878 en_ramas_no_seleccionadas=2664 ErrNonce=1228 ErrDobleGasto=362 ErrSaldo=0 ErrRetiroPendiente=0 ErrAutorizacion=0 ErrInmaduro=0 ErrOperacionFase=0 ErrEmision=0 otros=0
+TIPO Retiro construidas=8593 aplicadas=2865 descartadas=1773 evaluadas=4638 en_ramas_no_seleccionadas=3955 ErrNonce=1695 ErrDobleGasto=0 ErrSaldo=29 ErrRetiroPendiente=49 ErrAutorizacion=0 ErrInmaduro=0 ErrOperacionFase=0 ErrEmision=0 otros=0
+TIPO Liberacion construidas=1725 aplicadas=501 descartadas=422 evaluadas=923 en_ramas_no_seleccionadas=802 ErrNonce=335 ErrDobleGasto=0 ErrSaldo=87 ErrRetiroPendiente=0 ErrAutorizacion=0 ErrInmaduro=0 ErrOperacionFase=0 ErrEmision=0 otros=0
+garantia_construidas = 15860
+garantia_evaluadas = 8439
+garantia_errnonce = 3258
+garantia_errnonce_pct_construidas = 20.54
+garantia_errnonce_pct_evaluadas = 38.61
+err_doble_gasto_total = 1074
+reorganizaciones_que_deshacen_garantia = 1108

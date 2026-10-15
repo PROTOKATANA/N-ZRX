@@ -1,0 +1,31 @@
+[package]
+name         = "zx-p2p"
+description  = "libp2p: transporte, descubrimiento, gossip de bloques híbridos y sync PoW/DAG"
+version.workspace      = true
+edition.workspace      = true
+rust-version.workspace = true
+license.workspace      = true
+repository.workspace   = true
+
+[lints]
+workspace = true
+
+[dependencies]
+zx-core      = { path = "../zx-core" }
+libp2p       = { workspace = true, features = [
+    "tokio", "tcp", "quic", "noise", "yamux", "dns",
+    "identify", "ping", "kad", "mdns", "gossipsub", "request-response",
+    "macros", "ed25519",
+] }
+tokio        = { workspace = true }
+futures      = { workspace = true }
+thiserror    = { workspace = true }
+tracing      = { workspace = true }
+# ZRX-C (ORDEN-ZC4): el marco, los topes, el diccionario y la verificación son la
+# implementación única de `zx-compresion`; `zx-p2p` solo la consume en la red.
+zx-compresion = { path = "../zx-compresion" }
+
+[dev-dependencies]
+# SOLO en dev: par de extremos AsyncRead/AsyncWrite en memoria para exercitar el codec sin `Swarm`.
+# El código de este crate NO depende de consenso ni por accidente: ver el diagrama de lib.rs.
+futures_ringbuf = { workspace = true }

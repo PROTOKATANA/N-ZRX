@@ -1,0 +1,24 @@
+[package]
+name         = "zx-cadena"
+description  = "Gestor del estado del DAG en memoria: admisión PoW/PoST, Estado(past(B)), virtual, cadena seleccionada y reorganización con undo exacto (D-N02)"
+version.workspace      = true
+edition.workspace      = true
+rust-version.workspace = true
+license.workspace      = true
+repository.workspace   = true
+
+[lints]
+workspace = true
+
+[dependencies]
+thiserror       = { workspace = true }
+primitive-types = { workspace = true }
+zx-core         = { path = "../zx-core" }
+zx-consensus    = { path = "../zx-consensus" }
+zx-dag          = { path = "../zx-dag" }
+
+# Test: `proptest` y `ed25519-zebra` ya están resueltos en `Cargo.lock`; el arnés diferencial
+# firma con claves deterministas, como el de W03. No se añade ninguna dependencia externa nueva.
+[dev-dependencies]
+proptest      = { workspace = true }
+ed25519-zebra = { workspace = true }

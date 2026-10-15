@@ -1,0 +1,36 @@
+[package]
+name         = "zx-post"
+description  = "PoT puro, núcleo de rango PoT, puerta conjunta de cabecera PoST, contexto de transición dev, justificación PoT del wire y productor del bloque de transición"
+version.workspace      = true
+edition.workspace      = true
+rust-version.workspace = true
+license.workspace      = true
+repository.workspace   = true
+
+[lints]
+workspace = true
+
+[dependencies]
+thiserror       = { workspace = true }
+blake3          = { workspace = true }
+primitive-types = { workspace = true }
+ed25519-zebra   = { workspace = true }
+zx-core         = { path = "../zx-core" }
+zx-pot          = { path = "../zx-pot" }
+zx-dag          = { path = "../zx-dag" }
+zx-poas         = { path = "../zx-poas" }
+
+# ── Autonomys por ruta a la copia fijada `terceros/autonomys` (autonomys/subspace @ f8842d0) ────────────────────────
+# La puerta conjunta recibe el contexto de pieza; el verificador real (paso 5) vive en `zx-poas`,
+# que decide la pertenencia con `zx-merkle` (B-21, PT-2a-2). `subspace-verification` se compila
+# **sin** el feature `kzg`.
+subspace-verification = { path = "../../terceros/autonomys/crates/subspace-verification", default-features = false, features = ["std"] }
+
+[dev-dependencies]
+# §3.1: `zx-consensus` entra solo como `dev-dependency` (la excepción declarada) para minar la cadena
+# PoW dev de la prueba V5. `zx-farmer` entra como `dev-dependency` para implementar el puente real
+# `FuenteSoluciones → ParcelaDisco` en los tests; `frontera-crates.sh` solo mira dependencias que no
+# son `dev`, así que la frontera §V8 `zx-post → {zx-core, zx-pot, zx-dag, zx-poas}` se conserva.
+zx-consensus             = { path = "../zx-consensus" }
+zx-farmer                = { path = "../zx-farmer" }
+subspace-core-primitives = { path = "../../terceros/autonomys/crates/subspace-core-primitives", default-features = false, features = ["std"] }

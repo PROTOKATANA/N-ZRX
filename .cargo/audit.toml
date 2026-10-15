@@ -1,0 +1,8 @@
+# Excepciones de `cargo audit`, cada una con su motivo. Revisar cuando cambie la dependencia afectada.
+[advisories]
+ignore = [
+    # ringbuf 0.3.3 (doble liberación si el `Drop` de un elemento entra en pánico): solo llega por
+    # `futures_ringbuf`, dependencia de pruebas de zx-p2p que mueve bytes (`u8`, sin `Drop`); no
+    # entra en ningún binario. futures_ringbuf 0.4.0, la última, todavía depende de ringbuf 0.3.
+    "RUSTSEC-2026-0293",
+]
