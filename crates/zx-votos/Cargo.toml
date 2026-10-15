@@ -1,0 +1,27 @@
+[package]
+name         = "zx-votos"
+description  = "Finalidad por votos de ZEROX (C-FV-01…C-FV-12): sorteo VRF exacto, tabla de poder encadenada, certificado y multa por ausencia, con las primitivas criptográficas enchufadas a `zx-bls`"
+version.workspace      = true
+edition.workspace      = true
+rust-version.workspace = true
+license.workspace      = true
+repository.workspace   = true
+
+# Biblioteca pura (FV-4a): **no** cablea `zx-node` ni `zx-consensus` (eso es FV-4b). El `unsafe`
+# queda prohibido a nivel de crate; `zx-bls` es el único crate `zx-` que puede ver `blst` y aquí
+# solo se consume su API segura.
+[lints]
+workspace = true
+
+[dependencies]
+zx-bls     = { path = "../zx-bls" }
+sha2       = { workspace = true }
+num-bigint = { workspace = true }
+num-traits = { workspace = true }
+thiserror  = { workspace = true }
+
+[dev-dependencies]
+# Carga de los vectores JSONL de FV-3 (`P-ZRX/P-FINALIDAD-VOTOS/FV3/vectores/*.jsonl`) para la
+# verificación diferencial V2. FV-4b-1 la saca de la API pública: `json`/`vectores` son módulos
+# `#[cfg(test)]` y `hex` solo se usa al compilar los tests (no entra en `cargo doc`).
+hex        = { workspace = true }

@@ -1,0 +1,193 @@
+# vectores oficiales rusty-kaspa (SP_KASPA/MERGE_KASPA, u2 off, u3 off)
+DAGK 0 k=4
+B A padres=
+E A sp=- score=0 blues=A reds=
+B B padres=A
+E B sp=A score=1 blues=A reds=
+B C padres=B
+E C sp=B score=2 blues=B reds=
+B D padres=A
+E D sp=A score=1 blues=A reds=
+B E padres=C,D
+E E sp=C score=4 blues=C,D reds=
+B F padres=A
+E F sp=A score=1 blues=A reds=
+B G padres=F
+E G sp=F score=2 blues=F reds=
+B H padres=A
+E H sp=A score=1 blues=A reds=
+B I padres=A
+E I sp=A score=1 blues=A reds=
+B J padres=E,G
+E J sp=E score=7 blues=E,F,G reds=
+B K padres=J
+E K sp=J score=8 blues=J reds=
+B L padres=I,K
+E L sp=K score=9 blues=K reds=I
+B M padres=L
+E M sp=L score=10 blues=L reds=
+B N padres=M
+E N sp=M score=11 blues=M reds=
+B O padres=M
+E O sp=M score=11 blues=M reds=
+B 2 padres=M
+E 2 sp=M score=11 blues=M reds=
+B Q padres=M
+E Q sp=M score=11 blues=M reds=
+B R padres=M
+E R sp=M score=11 blues=M reds=
+B S padres=R
+E S sp=R score=12 blues=R reds=
+B T padres=N,O,2,Q,S
+E T sp=S score=16 blues=S,2,N,O reds=Q
+END
+DAGK 1 k=4
+B 0 padres=
+E 0 sp=- score=0 blues=0 reds=
+B a1 padres=0
+E a1 sp=0 score=1 blues=0 reds=
+B 2 padres=0
+E 2 sp=0 score=1 blues=0 reds=
+B 3 padres=0
+E 3 sp=0 score=1 blues=0 reds=
+B 4 padres=a1
+E 4 sp=a1 score=2 blues=a1 reds=
+B 5 padres=2,3
+E 5 sp=3 score=3 blues=3,2 reds=
+B 6 padres=3
+E 6 sp=3 score=2 blues=3 reds=
+B 7 padres=6
+E 7 sp=6 score=3 blues=6 reds=
+B 8 padres=a1,2
+E 8 sp=a1 score=3 blues=a1,2 reds=
+B 9 padres=5,6
+E 9 sp=5 score=5 blues=5,6 reds=
+B a10 padres=8,4
+E a10 sp=8 score=5 blues=8,4 reds=
+B 11 padres=7,9
+E 11 sp=9 score=7 blues=9,7 reds=
+B 12 padres=a10,9
+E 12 sp=a10 score=8 blues=a10,5,9 reds=3,6
+B 13 padres=5,8
+E 13 sp=8 score=6 blues=8,3,5 reds=
+B 14 padres=13,a10
+E 14 sp=13 score=8 blues=13,a10 reds=4
+B 15 padres=11,13
+E 15 sp=11 score=9 blues=11,13 reds=a1,8
+B 16 padres=11
+E 16 sp=11 score=8 blues=11 reds=
+B 17 padres=14
+E 17 sp=14 score=9 blues=14 reds=
+B 18 padres=13
+E 18 sp=13 score=7 blues=13 reds=
+B 19 padres=18,15
+E 19 sp=15 score=10 blues=15 reds=18
+B 20 padres=16,17
+E 20 sp=17 score=10 blues=17 reds=6,7,9,11,16
+B 21 padres=18,20
+E 21 sp=20 score=12 blues=20,18 reds=
+B 22 padres=19,21
+E 22 sp=21 score=13 blues=21 reds=15,19
+B 23 padres=12,17
+E 23 sp=17 score=11 blues=17,12 reds=6,9
+B 24 padres=20,23
+E 24 sp=23 score=13 blues=23,20 reds=7,11,16
+B 25555 padres=21
+E 25555 sp=21 score=13 blues=21 reds=
+B 26 padres=22,24,25555
+E 26 sp=25555 score=15 blues=25555,22 reds=12,15,19,23,24
+B 27 padres=16
+E 27 sp=16 score=9 blues=16 reds=
+B 28 padres=23,25555
+E 28 sp=25555 score=14 blues=25555 reds=12,23
+B 29 padres=26,28
+E 29 sp=26 score=17 blues=26,28 reds=
+B 30 padres=27
+E 30 sp=27 score=10 blues=27 reds=
+END
+DAGK 2 k=18
+B 786 padres=
+E 786 sp=- score=0 blues=786 reds=
+B 21d padres=786
+E 21d sp=786 score=1 blues=786 reds=
+B 6ef padres=21d
+E 6ef sp=21d score=2 blues=21d reds=
+B c98 padres=6ef
+E c98 sp=6ef score=3 blues=6ef reds=
+B d1c padres=786
+E d1c sp=786 score=1 blues=786 reds=
+B ec9 padres=d1c,c98
+E ec9 sp=c98 score=5 blues=c98,d1c reds=
+B f154 padres=786
+E f154 sp=786 score=1 blues=786 reds=
+B 6c7 padres=d1c,21d,f154
+E 6c7 sp=f154 score=4 blues=f154,21d,d1c reds=
+B 015 padres=ec9,6c7
+E 015 sp=ec9 score=8 blues=ec9,f154,6c7 reds=
+B crash padres=6ef,6c7
+E crash sp=6c7 score=6 blues=6c7,6ef reds=
+END
+DAGK 3 k=3
+B 0 padres=
+E 0 sp=- score=0 blues=0 reds=
+B 1 padres=0
+E 1 sp=0 score=1 blues=0 reds=
+B 2 padres=1
+E 2 sp=1 score=2 blues=1 reds=
+B 3 padres=1
+E 3 sp=1 score=2 blues=1 reds=
+B 4 padres=1
+E 4 sp=1 score=2 blues=1 reds=
+B 5 padres=4,2,3
+E 5 sp=4 score=5 blues=4,2,3 reds=
+B 6 padres=0
+E 6 sp=0 score=1 blues=0 reds=
+B 7 padres=6
+E 7 sp=6 score=2 blues=6 reds=
+B 8 padres=7
+E 8 sp=7 score=3 blues=7 reds=
+B 9 padres=8
+E 9 sp=8 score=4 blues=8 reds=
+B 10 padres=5,9
+E 10 sp=5 score=6 blues=5 reds=6,7,8,9
+END
+DAGK 4 k=2
+B 0 padres=
+E 0 sp=- score=0 blues=0 reds=
+B 1 padres=0
+E 1 sp=0 score=1 blues=0 reds=
+B 2 padres=0
+E 2 sp=0 score=1 blues=0 reds=
+B 3 padres=2
+E 3 sp=2 score=2 blues=2 reds=
+B 4 padres=2
+E 4 sp=2 score=2 blues=2 reds=
+B 5 padres=1
+E 5 sp=1 score=2 blues=1 reds=
+B 6 padres=4,5
+E 6 sp=5 score=5 blues=5,2,4 reds=
+B 7 padres=3,5
+E 7 sp=5 score=5 blues=5,2,3 reds=
+B 8 padres=3
+E 8 sp=3 score=3 blues=3 reds=
+B 9 padres=6,7,8
+E 9 sp=7 score=6 blues=7 reds=4,8,6
+END
+DAGK 5 k=3
+B 0 padres=
+E 0 sp=- score=0 blues=0 reds=
+B 1 padres=0
+E 1 sp=0 score=1 blues=0 reds=
+B 2 padres=0
+E 2 sp=0 score=1 blues=0 reds=
+B 3 padres=0
+E 3 sp=0 score=1 blues=0 reds=
+B 4 padres=0
+E 4 sp=0 score=1 blues=0 reds=
+B 5 padres=1,2,3
+E 5 sp=3 score=4 blues=3,1,2 reds=
+B 6 padres=1,2,3,4
+E 6 sp=4 score=5 blues=4,1,2,3 reds=
+B 7 padres=5,6
+E 7 sp=6 score=6 blues=6 reds=5
+END

@@ -1,0 +1,40 @@
+[package]
+name         = "zx-estado"
+description  = "Árbol de estado de ZEROX (pieza A1): trie binario compacto por familia, raíz de 32 B, lote atómico, pruebas de pertenencia y de no pertenencia, y almacenes en memoria y RocksDB"
+version.workspace      = true
+edition.workspace      = true
+rust-version.workspace = true
+license.workspace      = true
+repository.workspace   = true
+
+[lints]
+workspace = true
+
+[[test]]
+name = "banco"
+required-features = ["rocksdb"]
+
+[features]
+default = []
+# RocksDB es una dependencia enorme (bindgen, libclang, minutos de compilación). Dejarla opcional
+# mantiene rápido el ciclo de todo lo que no la necesita: la lógica y las pruebas corren contra
+# `AlmacenEnMemoria`, que implementa el mismo rasgo `Almacen`.
+rocksdb = ["dep:rocksdb"]
+
+[dependencies]
+# Misma versión exacta que `zx-merkle` / `zx-core` (`sha3 = "=0.12.0"`): es la familia de hash del
+# consenso. No se añade ninguna dependencia nueva al workspace.
+sha3     = { workspace = true }
+thiserror = { workspace = true }
+# El almacén en disco, misma versión exacta que `crates/zx-storage`.
+rocksdb  = { workspace = true, optional = true }
+# A1-B1 · C1 · el canon de consenso necesita el `Estado`, el `Undo` y los tipos de estado. Por
+# ruta, sin dependencias externas nuevas; nadie depende de `zx-estado`, así que no hay ciclo.
+zx-consensus = { path = "../zx-consensus" }
+zx-core      = { path = "../zx-core" }
+
+[dev-dependencies]
+tempfile = { workspace = true }
+# A1-B1 · las pruebas construyen `Estado::trabajo` (`primitive_types::U256`). Ya está en el
+# workspace y en `Cargo.lock`; no entra ninguna versión nueva.
+primitive-types = { workspace = true }

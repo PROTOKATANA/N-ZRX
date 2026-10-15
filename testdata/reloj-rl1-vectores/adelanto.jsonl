@@ -1,0 +1,4 @@
+{"tipo":"adelanto","L":7200,"I":851,"rho":"12/5","sin_vdf":"7200/1","con_vdf":"56357/12","con_vdf_float":4696.416666666667,"recorte":"30043/86400","rho_umbral":"8051/851","vdf_util":true}
+{"tipo":"adelanto","L":600,"I":151,"rho":"12/5","sin_vdf":"600/1","con_vdf":"5257/12","con_vdf_float":438.0833333333333,"recorte":"1943/7200","rho_umbral":"751/151","vdf_util":true}
+{"tipo":"adelanto","L":600,"I":600,"rho":"12/5","sin_vdf":"600/1","con_vdf":"700/1","con_vdf_float":700.0,"recorte":"-1/6","rho_umbral":"2/1","vdf_util":false}
+{"tipo":"adelanto","L":600,"I":151,"rho":"2/1","sin_vdf":"600/1","con_vdf":"751/2","con_vdf_float":375.5,"recorte":"449/1200","rho_umbral":"751/151","vdf_util":true}

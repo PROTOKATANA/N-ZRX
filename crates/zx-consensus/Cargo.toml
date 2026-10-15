@@ -1,0 +1,33 @@
+[package]
+name         = "zx-consensus"
+description  = "Motor PoW de la fase de arranque: retarget LWMA-1, selección por trabajo, timestamps, génesis dev y minero CPU, parametrizados por red"
+version.workspace      = true
+edition.workspace      = true
+rust-version.workspace = true
+license.workspace      = true
+repository.workspace   = true
+
+[lints]
+workspace = true
+
+[dependencies]
+thiserror       = { workspace = true }
+primitive-types = { workspace = true }
+zx-core         = { path = "../zx-core" }
+# PT-3bc · la clave BLS de voto (clase `0x03` de la extensión v6) se verifica con la prueba de
+# posesión de `zx-bls` (`PK-04`). La frontera de `ci/frontera-crates.sh` se amplía en la misma
+# línea; `blst` sigue confinado en `zx-bls`.
+zx-bls          = { path = "../zx-bls" }
+# FV-4b-N2 · el certificado de finalidad se verifica en la transición con el contrato de
+# `zx-votos` (VRF por lotes, plazas exactas con `BigUint`, faltas y firma agregada). `zx-votos` es
+# una biblioteca pura (solo ve `zx-bls`); la frontera de `ci/frontera-crates.sh` se amplía en la
+# misma línea.
+zx-votos        = { path = "../zx-votos" }
+
+# Test: `proptest` ya lo usa el workspace (`zx-core`) y sus versiones ya están resueltas en
+# `Cargo.lock`. No se añade ninguna dependencia externa nueva.
+# `ed25519-zebra` ya está en `Cargo.lock` como dependencia directa de `zx-core`; el arnés
+# diferencial la usa para firmar con claves deterministas (§3.10). No cambia ninguna versión.
+[dev-dependencies]
+proptest       = { workspace = true }
+ed25519-zebra  = { workspace = true }

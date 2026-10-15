@@ -1,0 +1,61 @@
+# cobertura TX-2a-R T01 v0.6.1 · 2026-09-28T15:26:53+02:00
+# contadores de EvidenceTx y de las reglas nuevas:
+#  TX-2a/TX-2a-R: cada nombre de caso (tx-limite-*,
+#         cuerpo-limite-*, dep-fee-*, coinbase-excede,
+#         dep-fee-fusion-* [PoW ⇒ err_ErrOperacionFase],
+#         dep-fee-fusion-post-* [PoST]),
+#         `estricto`/`fusion`, `aplicado`/`rechazado`, la clase de
+#         error y `I1_<bool>` en los bloques aceptados.
+#  aplicada    = aplicada sin descarte en la historia seleccionada
+#  sin_saldo   = aplicada con la clave sin garantía (V=0, EV-22)
+#  duplicada   = descartada por ErrEvidenciaDuplicada (EV-12)
+#  tardia      = descartada por ErrEvidenciaTardia (EV-14)
+#  cbid_ajeno  = error de forma ErrForma(EvidenciaCbidAjeno) (RAT-1);
+#                incluye los casos `ambos` (precedencia del cbid)
+#  orden_canonico = error de forma ErrForma(OrdenCanonicoInvalido) (EV-01/EV-04)
+#  orden_descendente / orden_igual = subtipos de `orden_canonico`
+#                (pre_hash(H1) > pre_hash(H2) / =); excluyen `ambos`
+#  ambos       = casos con cbid ajeno Y orden no canónico (subconjunto de cbid_ajeno)
+#  con_entradas= error de forma ErrForma(EvidenciaConEntradasOSalidas)
+#                (EV-04, estructura; primera de la precedencia)
+#  sin_evidencia / puerta_rat3 / otro_error / malformada / sin_padre
+#  deshecha    = aplicada y deshecha exactamente con `deshacer` (EV-27);
+#                T01 no fusiona ramas, así que no mide reorganización
+I1_true = 27
+ambos = 120
+aplicada = 260
+aplicado = 27
+cbid_ajeno = 252
+coinbase-excede = 3
+con_entradas = 120
+cuerpo-limite-mas1-post = 3
+cuerpo-limite-mas1-pow = 3
+cuerpo-limite-ok-post = 3
+cuerpo-limite-ok-pow = 3
+dep-fee-cero = 3
+dep-fee-fusion-descartada = 3
+dep-fee-fusion-negativa = 3
+dep-fee-fusion-post-acreditada = 3
+dep-fee-fusion-post-descartada = 3
+dep-fee-negativa = 3
+dep-fee-positiva = 3
+dep-fee-positiva-sin-reclamar = 3
+deshecha = 380
+duplicada = 40
+err_ErrEmision = 3
+err_ErrForma_CuerpoExcedeTamano_ = 6
+err_ErrForma_TxExcedeTamano_ = 6
+err_ErrOperacionFase = 6
+err_ErrSaldo = 3
+estricto = 39
+fusion = 12
+orden_canonico = 252
+orden_descendente = 132
+orden_igual = 120
+rechazado = 24
+sin_saldo = 120
+tardia = 200
+tx-limite-mas1 = 3
+tx-limite-ok = 3
+tx-limite-post-mas1 = 3
+tx-limite-post-ok = 3

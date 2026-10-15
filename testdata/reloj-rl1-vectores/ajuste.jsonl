@@ -1,0 +1,9 @@
+{"tipo":"ajuste","T":50,"n_iter":2603792,"tau_est":"1006/1","tau_ref":"1000/1","U":"5/1","accion":"bajar","duplicado":false,"T2":49,"n_iter2":2603792,"N2":127585808,"n_max":240000000}
+{"tipo":"ajuste","T":50,"n_iter":2603792,"tau_est":"1005/1","tau_ref":"1000/1","U":"5/1","accion":"igual","duplicado":false,"T2":50,"n_iter2":2603792,"N2":130189600,"n_max":240000000}
+{"tipo":"ajuste","T":50,"n_iter":2603792,"tau_est":"995/1","tau_ref":"1000/1","U":"5/1","accion":"igual","duplicado":false,"T2":50,"n_iter2":2603792,"N2":130189600,"n_max":240000000}
+{"tipo":"ajuste","T":50,"n_iter":2603792,"tau_est":"994/1","tau_ref":"1000/1","U":"5/1","accion":"subir","duplicado":false,"T2":51,"n_iter2":2603792,"N2":132793392,"n_max":240000000}
+{"tipo":"ajuste","T":100,"n_iter":2603792,"tau_est":"994/1","tau_ref":"1000/1","U":"5/1","accion":"subir","duplicado":true,"T2":46,"n_iter2":5207584,"N2":239548864,"n_max":240000000}
+{"tipo":"ajuste","T":50,"n_iter":2603792,"tau_est":"1000/1","tau_ref":"1000/1","U":"5/1","accion":"igual","duplicado":false,"T2":50,"n_iter2":2603792,"N2":130189600,"n_max":240000000}
+{"tipo":"ajuste","T":100,"n_iter":2000000,"tau_est":"994/1","tau_ref":"1000/1","U":"5/1","accion":"subir","duplicado":true,"T2":50,"n_iter2":4000000,"N2":200000000,"n_max":240000000}
+{"tipo":"ajuste","T":92,"n_iter":2603792,"tau_est":"994/1","tau_ref":"1000/1","U":"5/1","accion":"subir","duplicado":false,"T2":92,"n_iter2":2603792,"N2":239548864,"n_max":240000000}
+{"tipo":"ajuste_techo","T":100,"n_iter":2603792,"N_max":240000000,"T2":46,"n_iter2":5207584,"N2":239548864,"accion":"subir","duplicado":true}

@@ -1,0 +1,9 @@
+{"tipo":"segmentos","total":160,"max_seg":64,"n_segmentos":3,"longitudes":"64,64,32","suma":160}
+{"tipo":"segmentos","total":48,"max_seg":64,"n_segmentos":1,"longitudes":"48","suma":48}
+{"tipo":"segmentos","total":128,"max_seg":64,"n_segmentos":2,"longitudes":"64,64","suma":128}
+{"tipo":"segmentos","total":4294967280,"max_seg":4294967280,"n_segmentos":1,"longitudes":"4294967280","suma":4294967280}
+{"tipo":"segmentos","total":8589934592,"max_seg":4294967280,"n_segmentos":3,"longitudes":"4294967280,4294967280,32","suma":8589934592}
+{"tipo":"cadena_segmentada","semilla":"0x1","total":160,"max_seg":64,"longitudes":"64,64,32","salidas_por_segmento":"15518063374572960321,16822671600617239681,4582760403475483041","salida_final":"4582760403475483041"}
+{"tipo":"orden_vdf","caso":"positivo_pasado","estado":"ok","pasos":"estructura,derivar_semilla_vdf_del_pasado,verificar_cadena_larga,derivar_flujo_desde_vdf,comprobar_flujo_del_pasado,cache_y_aes_del_rango"}
+{"tipo":"orden_vdf","caso":"negativo_circular","estado":"pendiente_circular","pasos":""}
+{"tipo":"orden_vdf","caso":"negativo_contexto","estado":"pendiente_contexto","pasos":""}

@@ -1,0 +1,16 @@
+{"tipo":"mediana","entrada":"10,20,30","salida":"20/1"}
+{"tipo":"mediana","entrada":"10,20,30,40","salida":"25/1"}
+{"tipo":"pmt","pasado":"100,105,103,110,108,120","m":5,"salida":"108/1"}
+{"tipo":"monotonia_frontera","ts":"108/1","pmt":"108/1","acepta":true}
+{"tipo":"monotonia_frontera","ts":"107/1","pmt":"108/1","acepta":false}
+{"tipo":"ftl","ts":1540,"reloj":1000,"ftl":540,"acepta":true}
+{"tipo":"ftl","ts":1541,"reloj":1000,"ftl":540,"acepta":false}
+{"tipo":"banda_ts_slot","ts":1000,"slot":10,"t_ancla":0,"tau_ref":"100/1","banda":30,"acepta":true}
+{"tipo":"banda_ts_slot","ts":1030,"slot":10,"t_ancla":0,"tau_ref":"100/1","banda":30,"acepta":true}
+{"tipo":"banda_ts_slot","ts":1031,"slot":10,"t_ancla":0,"tau_ref":"100/1","banda":30,"acepta":false}
+{"tipo":"cuantil_mediana_ataque","alpha_mitad":"0/1","cuantil":"1/2"}
+{"tipo":"cuantil_mediana_ataque","alpha_mitad":"1/10","cuantil":"5/9"}
+{"tipo":"cuantil_mediana_ataque","alpha_mitad":"1/5","cuantil":"5/8"}
+{"tipo":"cuantil_mediana_ataque","alpha_mitad":"1/4","cuantil":"2/3"}
+{"tipo":"cuantil_mediana_ataque","alpha_mitad":"2/5","cuantil":"5/6"}
+{"tipo":"sesgo_por_mitades","alpha_total":"1/10","A":2048,"alpha_mitad":"1/5","cuantil_mitad_atacada":"5/8"}

@@ -1,0 +1,21 @@
+[package]
+name         = "zx-dag"
+description  = "Orden DAG de la red dev: GHOSTDAG, comprobación contextual de padres, rango validado y vista causal del pasado"
+version.workspace      = true
+edition.workspace      = true
+rust-version.workspace = true
+license.workspace      = true
+repository.workspace   = true
+
+[lints]
+workspace = true
+
+[dependencies]
+thiserror       = { workspace = true }
+primitive-types = { workspace = true }
+zx-core         = { path = "../zx-core" }
+
+# Test: `proptest` ya lo usa el workspace (`zx-core`) y sus versiones ya están resueltas en
+# `Cargo.lock`. No se añade ninguna dependencia externa nueva.
+[dev-dependencies]
+proptest = { workspace = true }
