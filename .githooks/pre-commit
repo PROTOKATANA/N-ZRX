@@ -1,0 +1,56 @@
+#!/usr/bin/env bash
+set -euo pipefail
+shopt -s nocasematch
+
+STAGED=$(git diff --cached --name-only --diff-filter=ACM)
+[ -z "$STAGED" ] && exit 0
+FALLO=0
+
+PROHIBIDAS='\.(exe|dll|so|dylib|a|lib|o|obj|pdb|rlib|wasm|class|jar|pyc|hsaco|fatbin|cubin|mp4|mov|mkv|avi|webm|mp3|wav|flac|png|jpe?g|gif|webp|bmp|tiff|zip|tar|gz|7z|rar|deb|rpm|msi|dmg|iso|apk|aab|ipa|jks|keystore|safetensors|pt|pth|ckpt|onnx|gguf|bin|npy|parquet|db|sqlite|pem|key|p12|pfx)$'
+RECURSOS_FLUTTER='(^|/)(assets/|android/app/src/main/res/|ios/Runner/Assets\.xcassets/|macos/Runner/Assets\.xcassets/|web/icons/|web/favicon\.png$|windows/runner/resources/)'
+EXT_RECURSO='\.(png|jpe?g|webp|gif|ico|ttf|otf)$'
+MAX_RECURSO=262144   # 256 KB
+MAX_ARCHIVO=20971520 # 20 MB
+
+while IFS= read -r f; do
+  [ -z "$f" ] && continue
+  TAM=$(git cat-file -s ":$f")
+
+  # Excepción 7.1: recursos de Flutter permitidos, con límite de tamaño
+  if [[ "$f" =~ $RECURSOS_FLUTTER && "$f" =~ $EXT_RECURSO ]]; then
+    if ((TAM > MAX_RECURSO)); then
+      echo "ERROR: recurso $f ocupa $TAM bytes (máx. 256 KB)"
+      FALLO=1
+    fi
+    continue
+  fi
+
+  if [[ "$f" =~ $PROHIBIDAS ]]; then
+    echo "ERROR: extensión prohibida: $f"
+    FALLO=1
+    continue
+  fi
+
+  if git diff --cached --numstat -- "$f" | grep -q $'^-\t-\t'; then
+    echo "ERROR: archivo binario: $f"
+    FALLO=1
+    continue
+  fi
+
+  if ((TAM > MAX_ARCHIVO)); then
+    echo "ERROR: $f ocupa $TAM bytes (máx. 20 MB)"
+    FALLO=1
+  fi
+done <<<"$STAGED"
+
+# Secretos
+if command -v gitleaks >/dev/null; then
+  gitleaks protect --staged --redact || FALLO=1
+else
+  echo "AVISO: gitleaks no está instalado; instálalo para escanear secretos"
+fi
+
+if ((FALLO)); then
+  echo "Commit bloqueado."
+  exit 1
+fi
