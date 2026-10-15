@@ -1,0 +1,20 @@
+[package]
+name = "zx-pot"
+description = "Primitiva PoT AES de Autonomys portada a Rust estable: prueba y verificación de un slot"
+version.workspace      = true
+edition.workspace      = true
+rust-version.workspace = true
+license.workspace      = true
+repository.workspace   = true
+
+# Aloja el port literal de `subspace-proof-of-time`. Los lints de estilo del workspace
+# (unsafe, indexing_slicing, integer_division, unwrap en const) se apartan módulo a módulo en
+# `src/lib.rs`, con su motivo, para no reformular el AES copiado. No se apagan aquí.
+[lints]
+workspace = true
+
+[dependencies]
+aes         = { workspace = true }
+blake3      = { workspace = true }
+cpufeatures = { workspace = true }
+thiserror   = { workspace = true }

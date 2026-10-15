@@ -1,0 +1,153 @@
+[workspace]
+resolver = "3"
+members = [
+    "crates/zx-core",
+    "crates/zx-bls",
+    "crates/zx-merkle",
+    "crates/zx-pot",
+    "crates/zx-compresion",
+]
+# Los crates de Autonomys copiados en `terceros/autonomys` (autonomys/subspace @ f8842d01) forman su
+# propio espacio de trabajo: heredan `workspace = true` de `terceros/autonomys/Cargo.toml`, no de este.
+# Se excluyen para que Cargo no los convierta en miembros automáticos al enlazarlos por `path`.
+exclude = ["terceros/autonomys"]
+
+[workspace.package]
+version    = "0.0.0"
+edition    = "2024"
+rust-version = "1.90"
+license    = "AGPL-3.0-or-later"
+repository = "https://github.com/PROTOKATANA/ZEROX"
+
+# ─────────────────────────────────────────────────────────────────────────
+# Versiones EXACTAS (`=`), no rangos. Regla del proyecto: adoptar cripto
+# auditada sin tocarla, y que un `cargo update` no pueda mover consenso.
+# Versiones consultadas en crates.io el 2026-09-04.
+# ─────────────────────────────────────────────────────────────────────────
+[workspace.dependencies]
+# --- cripto / consenso — pineado duro, no tocar sin revisión humana ---
+# NOTA (auditoría 2026-09-04, zx-implementaciones): pinear `sha3 = "=x"` NO pinea la
+# permutación — `sha3` delega en `keccak` y `sponge-cursor` como RANGOS. Por eso el
+# Cargo.lock se committea (fuera de .gitignore) y la CI corre con `--locked`: el lock es
+# la única fuente de verdad del árbol transitivo consensus-critical. Ver research/sha3-referencias.md.
+ed25519-zebra         = "=4.2.0"
+# --- BLS12-381 (PK-04, ORDEN-BLS1): firma de la finalidad por votos ---
+# Crate oficial de Supranational `blst` 0.3.17 (publicada el 2026-07-24), confinado en el crate
+# `zx-bls` (PK-04: `ci/frontera-crates.sh` impide que otro crate dependa de él). Compila C y
+# ensamblador con `cc` y expone enlaces Rust con tipos seguros; la variante de esquema es
+# minimal-pubkey-size (clave en G1, firma en G2) con prueba de posesión.
+blst                  = "=0.3.17"
+sha3                  = "=0.12.0"
+bech32                = "=0.12.0"
+primitive-types       = "=0.14.0"
+
+# --- finalidad por votos (FV-4a, `zx-votos`) ---
+# `C-FV-11` fija `H = SHA-256` (propuesta de FV-3, exigida por FV-4 para reproducir los vectores
+# bit a bit). `num-bigint` implementa la CDF binomial EXACTA del sorteo (`C-FV-03`): ningún umbral
+# se decide con `Float64` (LINEO §5.3, contrato §0). Ambos ya estaban en el `Cargo.lock` del
+# workspace como dependencias transitivas.
+sha2                  = "=0.10.9"
+num-bigint            = "=0.4.8"
+num-traits            = "=0.2.19"
+
+# --- PoT AES (SPEC §7.1.1, C-POT-02) ---
+# `zx-pot` porta `subspace-proof-of-time` @ f8842d0. AES y BLAKE3 no se eligen aquí: son las
+# versiones que el prototipo resolvió y que validan sus 32 vectores diferenciales. En particular
+# NO se sustituye AES por el 0.8.4 que ya está en el lock (rama de `aes-gcm`) para facilitar la
+# compilación: eso cambiaría la primitiva. `cpufeatures 0.2` es el que usa la detección de CPU del
+# port; `aes`/`blake3` traen su propio `cpufeatures 0.3`.
+aes         = "=0.9.3"
+blake3      = { version = "=1.8.7", default-features = false }
+cpufeatures = "=0.2.17"
+
+# --- errores, logging, CLI ---
+thiserror          = "=2.0.20"
+hex                = "=0.4.3"
+
+# --- nodo (W06d1/W06d2) — versión exacta del `Cargo.lock` de `9681061` ---
+# `clap` para la CLI del binario `zx-node` (directorio de datos, red, claves, papel, `N_dev`,
+# `SR_dev`, registro, parada tras N slots). No se añade `serde`: no es imprescindible (el registro
+# estructurado se escribe a mano con el esquema fijo de `ESCENARIOS-0.0.1.md` §1). `tokio` **sí** se
+# añade desde `ORDEN-W06d2`: `zx-node` pasa a depender de `zx-p2p` para hablar la red real;
+# reutiliza la misma instancia de `tokio` que ya fijó `zx-p2p` más abajo (nunca dos runtimes async
+# con versiones distintas en el mismo binario).
+clap               = { version = "=4.6.6", features = ["derive"] }
+# `tracing-subscriber` **se añade en `ORDEN-W06d6`** (decisión 3, V7): sin un suscriptor instalado,
+# `zx-adversario` no imprime ninguno de los `tracing::debug!`/`tracing::warn!` de `zx-p2p` (motivo
+# real de un rechazo local de gossipsub, penalizaciones...), y esa era la mitad de por qué V7 quedó
+# "parcial" en `REVISION-W06d5.md`: el motivo existía en el código pero nada lo mostraba. Versión
+# fijada al mismo estilo que el resto: la que ya está en la caché local (0.3.23), sin `env-filter`
+# (se activa por variable de entorno `RUST_LOG` con el filtro por defecto de `fmt`, que ya basta
+# para esta herramienta de diagnóstico, no de producción).
+tracing-subscriber = { version = "=0.3.23", default-features = false, features = ["fmt", "ansi"] }
+
+# --- farmer (D1/D2) — versiones exactas del `Cargo.lock` de `9681061` ---
+# `rand`/`rand_chacha`: relleno propio de la historia génesis dev (D-P12), no el de Autonomys.
+# `futures`/`async-lock`/`parity-scale-codec`: las que usaba `zx-node` en `9681061`.
+rand               = "=0.9.5"
+rand_chacha        = "=0.9.0"
+futures            = "=0.3.34"
+async-lock         = "=3.4.2"
+parity-scale-codec = { version = "=3.7.5", default-features = false, features = ["derive"] }
+
+# --- almacén (W06b) — versiones exactas del `Cargo.lock` de `9681061` ---
+# `rocksdb` 0.25 con sus features por defecto (snappy, lz4, zstd, zlib, bzip2) y `tempfile` para
+# los tests del almacén en disco.
+rocksdb  = "=0.25.0"
+tempfile = "=3.24.0"
+
+# --- compresión en disco y red (ZRX-C, ORDEN-ZC2) ---
+# `zstd` 0.13.3 usa `zstd-sys` 2.1.0+zstd.1.5.7, la misma versión de la C que
+# `librocksdb-sys` ya trae al lock; el marco ZXC1 añade versión, longitud
+# original y límites de descompresión por encima del frame de zstd.
+zstd    = "=0.13.3"
+
+# --- test ---
+proptest        = "=1.11.0"
+
+# --- red P2P (libp2p) ---
+# `libp2p` 0.57 (0.56 arrastraba hickory 0.25, con RUSTSEC-2026-0119) con transporte tokio,
+# request-response y gossipsub; `tokio` como runtime; `tracing` para los logs del bucle.
+# `futures_ringbuf` solo en dev: par AsyncRead/AsyncWrite en memoria para testear el códec
+# sin levantar un `Swarm` (el patrón de `request-response/src/cbor.rs`).
+libp2p          = "=0.57.0"
+tokio           = { version = "=1.53.1", features = ["rt-multi-thread", "macros", "time", "sync"] }
+tracing         = "=0.1.44"
+futures_ringbuf = "=0.4.0"
+
+# ─────────────────────────────────────────────────────────────────────────
+# Lints: en código de consenso un panic es un vector de DoS.
+# ─────────────────────────────────────────────────────────────────────────
+[workspace.lints.clippy]
+unwrap_used      = "deny"
+expect_used      = "deny"
+wildcard_imports = "deny"
+panic            = "deny"
+todo             = "warn"
+indexing_slicing = "warn"
+integer_division = "warn"
+undocumented_unsafe_blocks = "warn"
+
+[workspace.lints.rust]
+unsafe_code       = "warn"
+missing_docs      = "warn"
+unused_must_use   = "deny"
+
+[profile.release]
+opt-level     = 3
+lto           = true
+codegen-units = 1
+panic         = "abort"
+
+# PT-2a-2: `HistoriaGenesis` construye el árbol Merkle de la historia dev (2¹⁶ hojas de registro ×
+# 2⁷ raíces de registro ≈ 8,4 M SHA3-256) al arrancar. En `dev` (tests) el hash sin optimizar hace
+# que el arranque del nodo supere los 180 s de los tests de producción. Se optimiza **solo** la
+# primitiva de hash (mismo algoritmo, mismos bytes); no cambia ningún resultado ni perfil de
+# consenso.
+[profile.dev.package.sha3]
+opt-level = 3
+[profile.dev.package.keccak]
+opt-level = 3
+[profile.dev.package.sponge-cursor]
+opt-level = 3
+

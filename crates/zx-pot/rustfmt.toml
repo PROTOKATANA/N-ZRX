@@ -1,0 +1,8 @@
+# `crates/zx-pot` aloja un **port literal** de `subspace-proof-of-time` @ f8842d0 (0BSD) y de los
+# newtypes que lo envuelven. Reformatearlos con `rustfmt` los separaría del original sin cambiar una
+# línea de semántica, así que se dejan fuera: el AES y `tipos.rs` no se tocan.
+#
+# `skip_children` es una opción inestable; el workspace fija `nightly-2026-05-03`, que la admite.
+# Solo afecta a los módulos hijos de este crate. `lib.rs` y los tests sí se formatean.
+unstable_features = true
+skip_children = true

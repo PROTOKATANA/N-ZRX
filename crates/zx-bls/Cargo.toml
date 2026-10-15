@@ -1,0 +1,21 @@
+[package]
+name = "zx-bls"
+description = "Firma BLS12-381 (minimal-pubkey-size, prueba de posesión) envolviendo `blst`"
+version.workspace      = true
+edition.workspace      = true
+rust-version.workspace = true
+license.workspace      = true
+repository.workspace   = true
+
+# `#![forbid(unsafe_code)]` en `src/lib.rs`: el único `unsafe` del camino es el de `blst`, que
+# queda detrás de su API segura y **confinado** en este crate (PK-04, ORDEN-BLS1 decisión 4).
+[lints]
+workspace = true
+
+[dependencies]
+blst      = { workspace = true }
+thiserror = { workspace = true }
+
+[dev-dependencies]
+# `hex` ya está en el `Cargo.lock` del workspace (dev-dependencia de `zx-core`).
+hex = { workspace = true }

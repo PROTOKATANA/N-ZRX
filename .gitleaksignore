@@ -1,0 +1,15 @@
+# Falsos positivos de gitleaks, por huella exacta (archivo:regla:línea). Revisados uno a uno:
+# - crates/zx-bls/tests/vectores/eth2/sign/: claves privadas de prueba de los vectores BLS públicos de
+#   ethereum/bls12-381-tests (ver crates/zx-bls/tests/vectores/PROCEDENCIA.md).
+# - testdata/vectores-cabecera-dag/vectores.txt: auth1 y auth2 son resúmenes de autorización (hashes).
+crates/zx-bls/tests/vectores/eth2/sign/sign_case_11b8c7cad5238946.json:generic-api-key:1
+crates/zx-bls/tests/vectores/eth2/sign/sign_case_142f678a8d05fcd1.json:generic-api-key:1
+crates/zx-bls/tests/vectores/eth2/sign/sign_case_37286e1a6d1f6eb3.json:generic-api-key:1
+crates/zx-bls/tests/vectores/eth2/sign/sign_case_7055381f640f2c1d.json:generic-api-key:1
+crates/zx-bls/tests/vectores/eth2/sign/sign_case_84d45c9c7cca6b92.json:generic-api-key:1
+crates/zx-bls/tests/vectores/eth2/sign/sign_case_8cd3d4d0d9a5b265.json:generic-api-key:1
+crates/zx-bls/tests/vectores/eth2/sign/sign_case_c82df61aa3ee60fb.json:generic-api-key:1
+crates/zx-bls/tests/vectores/eth2/sign/sign_case_d0e28d7e76eb6e9c.json:generic-api-key:1
+crates/zx-bls/tests/vectores/eth2/sign/sign_case_f2ae1097e7d0e18b.json:generic-api-key:1
+testdata/vectores-cabecera-dag/vectores.txt:generic-api-key:4
+testdata/vectores-cabecera-dag/vectores.txt:generic-api-key:5

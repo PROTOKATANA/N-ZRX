@@ -1,0 +1,23 @@
+[package]
+name         = "zx-merkle"
+description  = "Árboles de Merkle binarios del PoAS transparente (B-21): chunk→registro (2^16) y registro→segmento (2^8), testigo fijo de 768 B"
+version.workspace      = true
+edition.workspace      = true
+rust-version.workspace = true
+license.workspace      = true
+repository.workspace   = true
+
+[lints]
+workspace = true
+
+[dependencies]
+# SHA3-256 con separación de dominio (`h_d`, C-HASH-04). Es el mismo primitivo que usa `zx-core`;
+# el test `hash_coincide_con_zx_core` lo coteja contra `zx_core::sha3_256_publico`.
+sha3     = { workspace = true }
+thiserror = { workspace = true }
+
+[dev-dependencies]
+proptest = { workspace = true }
+hex      = { workspace = true }
+# Solo para el cotejo del hash con el `h_d` de consenso (dev): no es una dependencia de producción.
+zx-core  = { path = "../zx-core" }

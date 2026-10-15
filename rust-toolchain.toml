@@ -1,0 +1,12 @@
+# ZEROX compila en NIGHTLY PINEADO desde 2026-09-05. Ver MIGRACION.md para el estado del proyecto.
+#
+# El motivo es `ab-proof-of-space` (verificador de pruebas de espacio de Autonomys), que usa
+# `generic_const_exprs` y otras cuatro features inestables. Es la misma versión que Autonomys
+# pinea en su propio `rust-toolchain.toml`, para que sus crates compilen sin sorpresas.
+#
+# ⚠️ Esto NO es "usar nightly": es usar UNA versión concreta y no moverla. Subirla es una
+# decisión deliberada, con la suite entera y los dos guardianes de CI en verde antes y después.
+[toolchain]
+channel = "nightly-2026-05-03"
+components = ["rustfmt", "clippy"]
+profile = "default"
