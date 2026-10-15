@@ -1,0 +1,24 @@
+# Actualización semanal de dependencias: crates (Cargo.lock) y acciones del CI.
+version: 2
+updates:
+  - package-ecosystem: "cargo"          # Rust
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    cooldown:
+      default-days: 7                   # espera 7 días tras cada release antes de proponerla
+    groups:
+      menores-y-parches:
+        update-types: ["minor", "patch"]
+    commit-message:
+      prefix: "build"
+      include: "scope"                  # genera mensajes "build(deps): ..."
+    open-pull-requests-limit: 10
+
+  - package-ecosystem: "github-actions" # las propias Actions del CI
+    directory: "/"
+    schedule:
+      interval: "weekly"
+    commit-message:
+      prefix: "ci"
+      include: "scope"
