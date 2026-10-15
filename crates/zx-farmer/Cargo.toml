@@ -1,0 +1,35 @@
+[package]
+name         = "zx-farmer"
+description  = "Parcela persistente, auditoría por slot y conversión de candidatos PoAS a soluciones verificadas (D1+D2) sobre la historia génesis dev (D-P12)"
+version.workspace      = true
+edition.workspace      = true
+rust-version.workspace = true
+license.workspace      = true
+repository.workspace   = true
+
+[lints]
+workspace = true
+
+[dependencies]
+thiserror          = { workspace = true }
+blake3             = { workspace = true }
+futures            = { workspace = true }
+async-lock         = { workspace = true }
+parity-scale-codec = { workspace = true }
+zx-core            = { path = "../zx-core" }
+# Verificador PoAS, historia génesis dev y reto de auditoría. `zx-farmer` no depende de
+# `zx-consensus`: la frontera de §6 V8 es `zx-farmer → {zx-core, zx-poas}`.
+zx-poas            = { path = "../zx-poas" }
+zx-merkle          = { path = "../zx-merkle" }
+
+# ── Autonomys por ruta a la copia fijada `terceros/autonomys` (autonomys/subspace @ f8842d0) ────────────────────────
+# Plotter/auditor y sus instancias, las mismas que declaraba `zx-node` con la feature `farmer` en
+# `9681061`. No se copia ni se reimplementa PoS, KZG ni erasure coding. La ruta de generación de
+# tablas es la **paralela** (`generate_parallel`).
+subspace-core-primitives = { path = "../../terceros/autonomys/crates/subspace-core-primitives", default-features = false, features = ["std"] }
+subspace-data-retrieval  = { path = "../../terceros/autonomys/shared/subspace-data-retrieval" }
+subspace-erasure-coding  = { path = "../../terceros/autonomys/crates/subspace-erasure-coding" }
+subspace-farmer-components = { path = "../../terceros/autonomys/crates/subspace-farmer-components" }
+subspace-kzg             = { path = "../../terceros/autonomys/shared/subspace-kzg", default-features = false, features = ["std"] }
+subspace-proof-of-space  = { path = "../../terceros/autonomys/crates/subspace-proof-of-space", default-features = false, features = ["alloc", "parallel"] }
+subspace-verification    = { path = "../../terceros/autonomys/crates/subspace-verification", default-features = false, features = ["std"] }

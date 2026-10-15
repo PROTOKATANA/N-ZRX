@@ -1,0 +1,47 @@
+[package]
+name         = "zx-poas"
+description  = "Verificador PoAS (paso 5 de C-POT-08), historia génesis dev (D-P12), protocolo dev y reto de auditoría puro"
+version.workspace      = true
+edition.workspace      = true
+rust-version.workspace = true
+license.workspace      = true
+repository.workspace   = true
+
+[lints]
+workspace = true
+
+[dependencies]
+thiserror = { workspace = true }
+# Reto de auditoría y relleno de la historia: hashes puros. La versión la fija el workspace.
+blake3    = { workspace = true }
+# Relleno de la historia génesis (D-P12): `rand_chacha =0.9.0` y `rand =0.9.5` son las versiones
+# del `Cargo.lock` de `9681061`. **No** se sigue la versión que Autonomys usa en su propio relleno
+# (`rand 0.8.5` + `rand_chacha 0.3.1`): la nuestra es una definición propia (D-P12) y así se
+# declara. `rand::Rng::fill` sobre `&mut [u8]` delega en `fill_bytes`, el flujo de ChaCha8.
+rand        = { workspace = true }
+rand_chacha = { workspace = true }
+zx-core      = { path = "../zx-core" }
+zx-consensus = { path = "../zx-consensus" }
+zx-merkle    = { path = "../zx-merkle" }
+
+# ── Autonomys por ruta a la copia fijada `terceros/autonomys` (autonomys/subspace @ f8842d0) ────────────────────────
+# Verificador PoAS (A1): mismas dependencias que declaraba `zx-consensus` en `9681061`, pero
+# `subspace-verification` se compila **sin** el feature `kzg`: la verificación no-KZG se reproduce
+# en `verificador.rs` y la pertenencia la decide `zx-merkle` (B-21, PT-2a-2).
+subspace-core-primitives = { path = "../../terceros/autonomys/crates/subspace-core-primitives", default-features = false, features = ["std"] }
+subspace-proof-of-space  = { path = "../../terceros/autonomys/crates/subspace-proof-of-space", default-features = false, features = ["alloc"] }
+subspace-verification    = { path = "../../terceros/autonomys/crates/subspace-verification", default-features = false, features = ["std"] }
+# KZG residual: solo lo exige `Archiver::new` para materializar la historia dev que plotea el
+# productor (`historia.rs`); **no** entra en la ruta de verificación.
+subspace-kzg             = { path = "../../terceros/autonomys/shared/subspace-kzg", default-features = false, features = ["std"] }
+# Historia génesis (D-P12): `Archiver` real, erasure coding y el `FarmerProtocolInfo` dev.
+subspace-archiving        = { path = "../../terceros/autonomys/crates/subspace-archiving" }
+subspace-erasure-coding   = { path = "../../terceros/autonomys/crates/subspace-erasure-coding" }
+subspace-farmer-components = { path = "../../terceros/autonomys/crates/subspace-farmer-components" }
+
+[dev-dependencies]
+proptest = { workspace = true }
+# Solo para generar el fixture PoS positivo del test con la ruta **paralela** de ploteo
+# (`Tables::create_parallel`). La ruta no paralela tiene un SIGSEGV reproducible documentado en
+# `P-ZRX/P-INTENTO/investigacion/mediciones/fallo-semilla.md`; no se usa aquí.
+ab-proof-of-space = { path = "../../terceros/autonomys/shared/ab-proof-of-space", default-features = false, features = ["alloc", "full-chiapos", "parallel"] }

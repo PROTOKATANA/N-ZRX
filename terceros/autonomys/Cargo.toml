@@ -1,0 +1,64 @@
+# Manifiesto raíz recortado del espacio de trabajo de Autonomys (github.com/autonomys/subspace @ f8842d01).
+# Solo declara los nueve crates copiados en esta carpeta y las dependencias que heredan; los perfiles y los
+# [patch] del original no se copian porque Cargo solo los aplica en el espacio de trabajo raíz (el de ZEROX).
+[workspace.package]
+edition = "2024"
+
+[workspace.lints.rust]
+# `substrate_runtime` is a cfg condition set by substrate-wasm-builder and used by
+# `#[runtime_interface]` macro in polkadot-sdk (replaced `cfg(feature = "std")` in stable2506)
+unexpected_cfgs = { level = "warn", check-cfg = ['cfg(substrate_runtime)'] }
+
+[workspace]
+resolver = "2"
+members = [
+    "crates/*",
+    "shared/*",
+]
+
+[workspace.dependencies]
+ab-blake3 = "0.1.0"
+ab-chacha8 = "0.1.0"
+ab-proof-of-space = { path = "shared/ab-proof-of-space", default-features = false }
+anyhow = "1.0.89"
+async-lock = "3.4.0"
+async-trait = "0.1.88"
+backoff = "0.4.0"
+bitvec = "1.0.1"
+blake3 = { version = "1.8.5", default-features = false }
+bytes = { version = "1.11.1", default-features = false }
+chacha20 = { version = "0.10.1", default-features = false }
+criterion = { version = "0.8.2", default-features = false }
+derive_more = { version = "2.1.1", default-features = false }
+fs2 = "0.4.3"
+futures = "0.3.31"
+hex = { version = "0.4.3", default-features = false }
+kzg = { git = "https://github.com/grandinetech/rust-kzg", rev = "8f5f1a0f73b3c529c77cb880ff8d265830c7d7ac", default-features = false }
+libc = "0.2.186"
+num-traits = { version = "0.2.18", default-features = false }
+parity-scale-codec = { version = "3.7.5", default-features = false }
+parking_lot = "0.12.2"
+rand = { version = "0.8.5", default-features = false }
+rand_core = "0.6.4"
+rayon = "1.12.0"
+rclite = "0.4.1"
+rust-kzg-blst = { git = "https://github.com/grandinetech/rust-kzg", rev = "8f5f1a0f73b3c529c77cb880ff8d265830c7d7ac", default-features = false }
+scale-info = { version = "2.11.6", default-features = false }
+schnorrkel = { version = "0.11.4", default-features = false }
+seq-macro = "0.3.5"
+serde = { version = "1.0.216", default-features = false }
+serde-big-array = "0.5.1"
+sha2 = { version = "0.11.0", default-features = false }
+spin = "0.12.0"
+static_assertions = "1.1.0"
+subspace-archiving = { version = "0.1.0", path = "crates/subspace-archiving" }
+subspace-core-primitives = { version = "0.1.0", path = "crates/subspace-core-primitives", default-features = false }
+subspace-data-retrieval = { version = "0.1.0", path = "shared/subspace-data-retrieval" }
+subspace-erasure-coding = { version = "0.1.0", path = "crates/subspace-erasure-coding", default-features = false }
+subspace-kzg = { version = "0.1.0", path = "shared/subspace-kzg", default-features = false }
+subspace-proof-of-space = { version = "0.1.0", path = "crates/subspace-proof-of-space", default-features = false }
+subspace-verification = { version = "0.1.0", path = "crates/subspace-verification", default-features = false }
+thiserror = { version = "2.0.0", default-features = false }
+tokio = "1.40.0"
+tracing = { version = "0.1.40", default-features = false }
+uint = { version = "0.10.0", default-features = false }

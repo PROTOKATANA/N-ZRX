@@ -1,0 +1,35 @@
+[package]
+name = "subspace-data-retrieval"
+description = "Fetching data from the archived history of the Subspace Distributed Storage Network."
+license = "0BSD"
+version = "0.1.0"
+authors = ["Teor <teor@riseup.net>"]
+edition.workspace = true
+include = [
+    "/src",
+    "/Cargo.toml",
+    "/README.md",
+]
+
+[dependencies]
+anyhow.workspace = true
+async-trait.workspace = true
+futures.workspace = true
+hex = { workspace = true, features = ["std"] }
+parity-scale-codec = { workspace = true, features = ["derive"] }
+subspace-archiving.workspace = true
+subspace-core-primitives = { workspace = true, features = ["std"] }
+subspace-erasure-coding.workspace = true
+# This crate can't depend on any runtime code, because it needs to be independent of Substrate.
+thiserror.workspace = true
+tokio = { workspace = true, features = ["sync", "rt", "time"] }
+tracing = { workspace = true, features = ["std"] }
+
+[dev-dependencies]
+rand = { workspace = true, features = ["std", "std_rng"] }
+tokio = { workspace = true, features = ["rt-multi-thread", "macros"] }
+
+[features]
+parallel = [
+    "subspace-archiving/parallel",
+]

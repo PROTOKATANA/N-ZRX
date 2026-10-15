@@ -10,6 +10,9 @@ members = [
     "crates/zx-consensus",
     "crates/zx-dag",
     "crates/zx-estado",
+    "crates/zx-poas",
+    "crates/zx-farmer",
+    "crates/zx-storage",
 ]
 # Los crates de Autonomys copiados en `terceros/autonomys` (autonomys/subspace @ f8842d01) forman su
 # propio espacio de trabajo: heredan `workspace = true` de `terceros/autonomys/Cargo.toml`, no de este.

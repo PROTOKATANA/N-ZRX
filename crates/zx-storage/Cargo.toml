@@ -1,0 +1,31 @@
+[package]
+name         = "zx-storage"
+description  = "Almacén de bloques admitidos y registro de admisión, con repetición en orden para el reinicio (D-N03′)"
+version.workspace      = true
+edition.workspace      = true
+rust-version.workspace = true
+license.workspace      = true
+repository.workspace   = true
+
+[lints]
+workspace = true
+
+[features]
+# RocksDB es una dependencia enorme (bindgen, libclang, minutos de compilación). Dejarla opcional
+# mantiene rápido el ciclo de todo lo que no la necesita: la lógica y las propiedades se prueban
+# contra `AlmacenEnMemoria`, que implementa el mismo rasgo.
+default = []
+rocksdb = ["dep:rocksdb"]
+
+[dependencies]
+thiserror      = { workspace = true }
+zx-core        = { path = "../zx-core" }
+rocksdb        = { workspace = true, optional = true }
+
+[dev-dependencies]
+proptest = { workspace = true }
+tempfile = { workspace = true }
+
+[[example]]
+name = "medir_almacen"
+required-features = ["rocksdb"]
