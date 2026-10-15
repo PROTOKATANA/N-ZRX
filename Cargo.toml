@@ -1,21 +1,24 @@
 [workspace]
 resolver = "3"
 members = [
-    "crates/zx-core",
     "crates/zx-bls",
-    "crates/zx-merkle",
+    "crates/zx-core",
     "crates/zx-pot",
-    "crates/zx-compresion",
-    "crates/zx-votos",
     "crates/zx-consensus",
     "crates/zx-dag",
-    "crates/zx-estado",
     "crates/zx-poas",
     "crates/zx-farmer",
-    "crates/zx-storage",
-    "crates/zx-cadena",
-    "crates/zx-p2p",
     "crates/zx-post",
+    "crates/zx-p2p",
+    "crates/zx-cadena",
+    "crates/zx-storage",
+    "crates/zx-estado",
+    "crates/zx-node",
+    "crates/zx-merkle",
+    "crates/zx-votos",
+    "crates/zx-cartera",
+    "crates/zx-compresion",
+    "crates/zx-pruebas",
 ]
 # Los crates de Autonomys copiados en `terceros/autonomys` (autonomys/subspace @ f8842d01) forman su
 # propio espacio de trabajo: heredan `workspace = true` de `terceros/autonomys/Cargo.toml`, no de este.

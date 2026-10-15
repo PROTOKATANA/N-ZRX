@@ -1,0 +1,22 @@
+[package]
+name         = "zx-pruebas"
+description  = "Carril de pruebas recursivas (CP-C1): objeto PruebaRecursiva, huella sobre la forma canónica y topes anti-bomba"
+version.workspace      = true
+edition.workspace      = true
+rust-version.workspace = true
+license.workspace      = true
+repository.workspace   = true
+
+[lints]
+workspace = true
+
+[dependencies]
+# Marco ZRX-C (CP-R-06): el objeto viaja siempre dentro del marco de `zx-compresion`.
+zx-compresion = { path = "../zx-compresion" }
+# `H_d(tag ‖ msg) = SHA3-256(tag ‖ msg)` (C-HASH-04). `zx-core` mantiene `h_d` como `pub(crate)`
+# a propósito, así que la etiqueta nueva `ZZKPruebaCarril_` se implementa aquí como en `zx-merkle`.
+sha3      = { workspace = true }
+thiserror = { workspace = true }
+
+[dev-dependencies]
+hex = { workspace = true }

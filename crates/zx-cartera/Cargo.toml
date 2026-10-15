@@ -1,0 +1,29 @@
+[package]
+name         = "zx-cartera"
+description  = "Cartera dev de ZEROX (TX-4): deriva claves, construye y firma transferencias v1, depósitos v2 y retiros/liberaciones de garantía, y las envía por el tema de transacciones de `zx-p2p` sin RPC"
+version.workspace      = true
+edition.workspace      = true
+rust-version.workspace = true
+license.workspace      = true
+repository.workspace   = true
+
+# Cartera dev: **reutiliza** los constructores y la firma de `zx-core` (sighash, txid, forma,
+# `verificar`), el transporte de `zx-p2p` y la constante de génesis dev de `zx-consensus`; no
+# reimplementa firmas ni formatos, y **no** depende de `zx-node` (frontera de `ci/frontera-crates.sh`,
+# AUTO-C23 §2). La biblioteca es testeable sin red; el binario es el cliente de gossip.
+[lints]
+workspace = true
+
+[dependencies]
+zx-core      = { path = "../zx-core" }
+zx-consensus = { path = "../zx-consensus" }
+zx-p2p       = { path = "../zx-p2p" }
+ed25519-zebra = { workspace = true }
+clap         = { workspace = true }
+tokio        = { workspace = true }
+libp2p       = { workspace = true }
+hex          = { workspace = true }
+thiserror    = { workspace = true }
+
+[dev-dependencies]
+proptest = { workspace = true }

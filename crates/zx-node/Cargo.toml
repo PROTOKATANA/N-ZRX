@@ -1,0 +1,69 @@
+[package]
+name         = "zx-node"
+description  = "Nodo `zx-node` de la red dev: un proceso sin red que mina PoW, cruza el corte y produce PoST en régimen con persistencia y reinicio (ORDEN-W06d1, D-N01)"
+version.workspace      = true
+edition.workspace      = true
+rust-version.workspace = true
+license.workspace      = true
+repository.workspace   = true
+
+[lints]
+workspace = true
+
+[[bin]]
+name = "zx-node"
+path = "src/main.rs"
+
+[[bin]]
+name = "zx-adversario"
+path = "src/bin/zx-adversario.rs"
+
+# ORDEN-AD2-2: nodo completo que descarta todo voto ajeno (censura de red de votos). Vive fuera del
+# binario real `zx-node`; su manejador envuelve el real y solo cambia `voto_difundida`.
+[[bin]]
+name = "zx-censor"
+path = "src/bin/zx-censor.rs"
+
+[dependencies]
+thiserror       = { workspace = true }
+blake3          = { workspace = true }
+ed25519-zebra   = { workspace = true }
+primitive-types = { workspace = true }
+clap            = { workspace = true }
+zx-core         = { path = "../zx-core" }
+zx-consensus    = { path = "../zx-consensus" }
+zx-dag          = { path = "../zx-dag" }
+# A1-D2a · la raíz canónica del estado, para calcularla en segundo plano. Por ruta y **sin** la
+# característica `rocksdb`: el almacén en memoria basta para el cálculo y no añade la dependencia
+# enorme al nodo.
+zx-estado       = { path = "../zx-estado" }
+zx-poas         = { path = "../zx-poas" }
+zx-farmer       = { path = "../zx-farmer" }
+zx-post         = { path = "../zx-post" }
+zx-cadena       = { path = "../zx-cadena" }
+# FV-4b-N1: motor de finalidad por votos (`zx-votos`); `zx-node` es el único crate que lo cablea.
+zx-votos        = { path = "../zx-votos" }
+zx-storage      = { path = "../zx-storage", features = ["rocksdb"] }
+# --- red (ORDEN-W06d2) ---
+zx-p2p          = { path = "../zx-p2p" }
+tokio           = { workspace = true }
+tracing         = { workspace = true }
+libp2p          = { workspace = true, features = ["tokio", "tcp", "noise", "yamux", "macros", "ed25519"] }
+# Solo la usa el binario `zx-adversario` (`ORDEN-W06d6` decisión 3, V7): sin un suscriptor
+# instalado, sus propios `tracing::debug!`/`tracing::warn!` (y los de `zx-p2p`) no se imprimen en
+# ningún sitio. `zx-node` (el binario del nodo real) no la usa: su registro estructurado propio
+# (`registro.rs`) ya cubre esa necesidad con su propio esquema.
+tracing-subscriber = { workspace = true }
+
+# ── Autonomys por ruta a la copia fijada `terceros/autonomys` (autonomys/subspace @ f8842d0) ────────────────────────
+# El nodo no reimplementa PoS ni erasure coding: solo nombra `PieceCheckParams`, que entra por las
+# firmas de `zx-poas`. Sin KZG en el camino de consenso (B-21, PT-2a-2).
+subspace-core-primitives = { path = "../../terceros/autonomys/crates/subspace-core-primitives", default-features = false, features = ["std"] }
+subspace-verification    = { path = "../../terceros/autonomys/crates/subspace-verification", default-features = false, features = ["std"] }
+
+[dev-dependencies]
+tempfile = { workspace = true }
+# Solo para V5b: reabre el mismo RocksDB por debajo de `Almacen` y corrompe a mano el testigo de un
+# bloque PoW ya persistido (el compromiso del cuerpo PoW no cubre los testigos, `REVISION-W06b.md`).
+# `Almacen` no expone (a propósito) una vía para escribir bytes sin pasar por `admitir`.
+rocksdb = { workspace = true }
