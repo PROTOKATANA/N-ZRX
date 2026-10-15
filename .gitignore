@@ -1,0 +1,131 @@
+# Compilación
+/target/
+/build/
+/build-*/
+/dist/
+/out/
+/bin/
+/obj/
+CMakeFiles/
+CMakeCache.txt
+cmake-build-*/
+
+# Binarios y librerías
+*.exe
+*.dll
+*.so
+*.so.*
+*.dylib
+*.a
+*.lib
+*.o
+*.obj
+*.pdb
+*.rlib
+*.wasm
+*.class
+*.jar
+*.pyc
+__pycache__/
+
+# Código objeto de GPU (HIP)
+*.hsaco
+*.fatbin
+*.cubin
+
+# Dart / Flutter
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+*.apk
+*.aab
+*.ipa
+*.jks
+*.keystore
+key.properties
+google-services.json
+GoogleService-Info.plist
+
+# Julia (Manifest.toml solo se ignora en librerías; en aplicaciones se versiona)
+*.jl.cov
+*.jl.*.cov
+*.jl.mem
+/docs/build/
+/deps/deps.jl
+/deps/build.log
+
+# Multimedia
+*.mp4
+*.mov
+*.mkv
+*.avi
+*.webm
+*.mp3
+*.wav
+*.flac
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.webp
+*.bmp
+*.tiff
+
+# Comprimidos e instaladores
+*.zip
+*.tar
+*.gz
+*.7z
+*.rar
+*.deb
+*.rpm
+*.msi
+*.dmg
+*.iso
+
+# Modelos y datos
+*.safetensors
+*.pt
+*.pth
+*.ckpt
+*.onnx
+*.gguf
+*.bin
+*.npy
+*.parquet
+*.db
+*.sqlite
+
+# Entornos y dependencias
+node_modules/
+.venv/
+venv/
+
+# Secretos y configuración local
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.pfx
+id_rsa*
+id_ed25519*
+
+# Editor y sistema
+.idea/
+.vscode/
+*.swp
+.DS_Store
+Thumbs.db
+
+# Excepción: recursos de Flutter (sección 7.1). Va al final para que prevalezca.
+!**/assets/**
+!**/android/app/src/main/res/**
+!**/ios/Runner/Assets.xcassets/**
+!**/macos/Runner/Assets.xcassets/**
+!**/web/icons/**
+!**/web/favicon.png
+
+# Documentación interna y contexto de los agentes: se conserva en local y nunca se publica.
+/.local/
