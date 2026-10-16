@@ -1,6 +1,12 @@
 # Puerta de calidad en cada push a main y en cada pull request: lo mismo que scripts/check.sh, más
 # la revisión de binarios, tamaños y secretos de todos los archivos seguidos.
 # Plataforma soportada: Linux x86_64.
+#
+# Corre en un ejecutor propio (más rápido que el gratuito de GitHub, donde la suite no cabe en 6 h):
+# cada ejecución espera la aprobación manual del entorno «ejecutor-propio», y el ejecutor es efímero
+# y está enjaulado (sin acceso a la carpeta personal ni a los servicios de la máquina). Las
+# herramientas de la puerta (compilador fijado, shellcheck, shfmt, gitleaks, cargo-audit, pwsh con
+# PSScriptAnalyzer) ya están instaladas en él.
 name: CI
 
 on:
@@ -19,35 +25,13 @@ concurrency:
 jobs:
   puerta-de-calidad:
     name: Puerta de calidad (Linux x86_64)
-    runs-on: ubuntu-latest
-    timeout-minutes: 360
+    runs-on: [self-hosted, linux, x64, zerox]
+    environment: ejecutor-propio
+    timeout-minutes: 480
     steps:
-      - name: Liberar disco del ejecutor
-        run: sudo rm -rf /usr/share/dotnet /usr/local/lib/android /opt/ghc /opt/hostedtoolcache/CodeQL
-
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
-
-      - name: Dependencias del sistema
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y build-essential clang libclang-dev shellcheck
-
-      - name: Compilador fijado en rust-toolchain.toml
-        run: rustup toolchain install
-
-      - uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2.9.2
-
-      - name: Herramientas de la puerta de calidad (versiones fijadas)
-        run: |
-          go install mvdan.cc/sh/v3/cmd/shfmt@v3.12.0
-          echo "$(go env GOPATH)/bin" >> "$GITHUB_PATH"
-          cargo install cargo-audit --locked --version 0.22.2
-          curl -fsSLo gitleaks.tar.gz https://github.com/gitleaks/gitleaks/releases/download/v8.30.1/gitleaks_8.30.1_linux_x64.tar.gz
-          echo "551f6fc83ea457d62a0d98237cbad105af8d557003051f41f3e7ca7b3f2470eb  gitleaks.tar.gz" | sha256sum -c -
-          tar -xzf gitleaks.tar.gz gitleaks
-          sudo install -m 0755 gitleaks /usr/local/bin/gitleaks
-          rm -f gitleaks gitleaks.tar.gz
-          pwsh -NoProfile -Command "Set-PSRepository -Name PSGallery -InstallationPolicy Trusted; Install-Module -Name PSScriptAnalyzer -RequiredVersion 1.25.0 -Scope CurrentUser -Force"
+        with:
+          persist-credentials: false
 
       - name: Binarios, tamaños y secretos de todos los archivos seguidos
         # En una rama huérfana todo lo seguido queda como «añadido», así que el gancho pre-commit
